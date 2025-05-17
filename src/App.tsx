@@ -4,6 +4,7 @@ import { questionBank, type Question } from './questionBank'
 import Leaderboard from './Leaderboard'
 import Calculator from './Calculator'
 import Summary from './Summary'
+import { motion } from 'framer-motion'
 
 const QUIZ_TIME = 40 // seconds
 
@@ -378,10 +379,24 @@ function App() {
       <div className="hero-bg-shape shape4"></div>
       <div className="hero-bg-shape shape5"></div>
       <div className="hero-glass-card">
-        <h1 className="hero-title" style={{fontSize: '2.5rem', marginBottom: '0.5rem'}}>QuizMaster – Built for Sharp Minds.</h1>
-        <div style={{fontWeight: 500, fontSize: '1.1rem', marginBottom: '1.5rem', color: '#222'}}>
+        {/* Mascot removed */}
+        {/* Animated Hero Title */}
+        <motion.h1
+          className="hero-title"
+          style={{fontSize: '2.5rem', marginBottom: '0.5rem'}}
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0, transition: { delay: 0.1, duration: 0.7, type: 'spring', stiffness: 80 } }}
+        >
+          QuizMaster – Built for Sharp Minds.
+        </motion.h1>
+        {/* Animated Subtitle */}
+        <motion.div
+          style={{fontWeight: 500, fontSize: '1.1rem', marginBottom: '1.5rem', color: '#222'}}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0, transition: { delay: 0.4, duration: 0.7, type: 'spring', stiffness: 60 } }}
+        >
           Choose your challenge and let the quiz adventure begin! 🎯
-        </div>
+        </motion.div>
         {/* 2x2 grid for categories, now bigger cards with icons */}
         <div className="categories-grid" style={{
           display: 'grid',
@@ -392,17 +407,34 @@ function App() {
           maxWidth: '500px',
         }}>
           {categories.map((category, idx) => {
-            // Fun emoji icons for categories (cycle if more categories)
-            const icons = ['📚', '🧠', '🌍', '🔬', '🎨', '⚡', '🎵', '💡'];
-            const icon = icons[idx % icons.length];
+            // Use visually distinct emoji icons for each category
+            const iconMap: Record<string, string> = {
+              'General Knowledge': '🧩',
+              'Technology & Business': '💻',
+              'History & Geopolitics': '🌎',
+              'Math & Logic': '➗',
+              'Science': '🔬',
+              'Art & Literature': '🎨',
+              'Music': '🎵',
+              'Sports': '🏆',
+              'Geography': '🗺️',
+              'Entertainment': '🎬',
+            };
+            const fallbackIcons = ['🧩', '💻', '🌎', '➗', '🔬', '🎨', '🎵', '🏆', '🗺️', '🎬'];
+            const icon = iconMap[category] || fallbackIcons[idx % fallbackIcons.length];
             // Highlight if category contains 'math' or 'logic' (case-insensitive)
             const isMostLoved = /math|logic/i.test(category.trim());
             if (isMostLoved) {
               return (
-                <div
+                <motion.div
                   key={category}
                   className={`category-card most-loved-card`}
                   onClick={() => handleCategorySelect(category)}
+                  initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: 0.2 + idx * 0.12, type: 'spring', stiffness: 120, damping: 18 }}
+                  whileHover={{ scale: 1.06, boxShadow: '0 8px 32px 0 #ffd70055', transition: { duration: 0.18 } }}
+                  whileTap={{ scale: 0.97 }}
                   style={{
                     minHeight: '110px',
                     minWidth: '170px',
@@ -420,15 +452,21 @@ function App() {
                   }}
                 >
                   <span className="most-loved-badge" style={{fontSize: '0.75rem', padding: '0.18em 0.7em'}}>Most Loved <span className="most-loved-crown" role="img" aria-label="crown" style={{fontSize: '1.1rem'}}>👑</span></span>
+                  <span className="category-icon" style={{fontSize: '3.5rem', marginBottom: '0.7rem'}}>{icon}</span>
                   <span className="most-loved-title" style={{fontSize: '1.65rem', borderBottomWidth: '2.5px'}}> {category} </span>
-                </div>
+                </motion.div>
               );
             }
             return (
-              <div
+              <motion.div
                 key={category}
                 className={`category-card category-card-animate`}
                 onClick={() => handleCategorySelect(category)}
+                initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 0.2 + idx * 0.12, type: 'spring', stiffness: 120, damping: 18 }}
+                whileHover={{ scale: 1.08, boxShadow: '0 8px 32px 0 #7c3aed33', background: 'rgba(255,255,255,1)' }}
+                whileTap={{ scale: 0.97 }}
                 style={{
                   minHeight: '110px',
                   minWidth: '170px',
@@ -446,9 +484,9 @@ function App() {
                   animationDelay: `${0.12 * idx}s`,
                 }}
               >
-                <span style={{fontSize: '2.2rem', marginBottom: '0.5rem'}}>{icon}</span>
-              <span>{category}</span>
-            </div>
+                <span className="category-icon" style={{fontSize: '3.5rem', marginBottom: '0.7rem'}}>{icon}</span>
+                <span>{category}</span>
+              </motion.div>
             );
           })}
         </div>

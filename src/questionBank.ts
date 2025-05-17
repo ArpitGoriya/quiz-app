@@ -138,7 +138,7 @@ export const questionBank: Question[] = [
     id: 16,
     category: "Math & Logic",
     question:
-      "A ₹1,200 product is discounted by 15%, then a 10% sales tax is applied on the discounted price. What’s the final cost? (use on-screen calculator)",
+      "A ₹1,200 product is discounted by 15%, then a 10% sales tax is applied on the discounted price. What’s the final cost?",
     options: ["₹1,122.00", "₹1,081.80", "₹1,038.00", "₹1,158.00"],
     correctIndex: 0
   },
@@ -153,7 +153,7 @@ export const questionBank: Question[] = [
     id: 18,
     category: "Math & Logic",
     question:
-      "What’s the area of a circle with radius 7 cm? (Use π = 3.14 and on-screen calculator)",
+      "What’s the area of a circle with radius 7 cm? (Use π = 3.14)",
     options: ["153.86 cm²", "144.00 cm²", "158.40 cm²", "149.86 cm²"],
     correctIndex: 0
   },
@@ -161,7 +161,7 @@ export const questionBank: Question[] = [
     id: 19,
     category: "Math & Logic",
     question:
-      "A car travels at 72 km/h. How far does it go in 2.5 hours? (use on-screen calculator)",
+      "A car travels at 72 km/h. How far does it go in 2.5 hours?",
     options: ["180 km", "165 km", "190 km", "175 km"],
     correctIndex: 0
   },

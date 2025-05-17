@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import './App.css';
 import './Leaderboard.css';
 
@@ -22,17 +22,9 @@ const cardVariants = {
   hidden: { opacity: 0, scale: 0.92, y: 40 },
   visible: { opacity: 1, scale: 1, y: 0, transition: { type: 'spring', stiffness: 80, damping: 18, duration: 0.8 } },
 };
-const rowVariants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: (i: number) => ({ opacity: 1, y: 0, transition: { delay: 0.12 * i, duration: 0.7, type: 'tween', ease: [0.4, 0, 0.2, 1] } }),
-};
 const summaryVariants = {
   hidden: { opacity: 0, scale: 0.85, y: 24 },
   visible: { opacity: 1, scale: 1, y: 0, transition: { type: 'spring', stiffness: 120, damping: 16, duration: 0.7 } },
-};
-const buttonVariants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.7, type: 'spring', stiffness: 60 } },
 };
 
 const trophyIcons = ['🥇', '🥈', '🥉'];
@@ -50,7 +42,6 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ userName, userScore, show, on
     if (!show) return;
     setAnimatedScore(0);
     setAnimationDone(false);
-    let start = 0;
     const duration = 8000; // ms (even slower, more dramatic)
     const startTime = performance.now();
     function easeOutCubic(t: number) {
