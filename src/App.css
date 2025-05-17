@@ -337,3 +337,141 @@
   color: #64748b;
   margin-bottom: 2rem;
 }
+
+.quiz-timer {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2563eb;
+  background: #e0e7ff;
+  padding: 0.5rem 1.2rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(30,41,59,0.08);
+  z-index: 25;
+}
+.timer-warning {
+  color: #ef4444;
+  font-weight: 800;
+  animation: blink 1s steps(2, start) infinite;
+}
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+.timeup-modal {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(30, 41, 59, 0.13);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  min-width: 340px;
+  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-top: 2rem;
+  z-index: 100;
+}
+.timeup-emoji {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.timeup-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ef4444;
+  margin-bottom: 0.7rem;
+}
+.timeup-message {
+  font-size: 1.1rem;
+  color: #64748b;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.leaderboard-card {
+  min-width: 400px;
+  max-width: 98vw;
+}
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  background: #f8fafc;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(30,41,59,0.06);
+}
+.leaderboard-table th, .leaderboard-table td {
+  padding: 0.7rem 1.2rem;
+  text-align: center;
+  font-size: 1.1rem;
+}
+.leaderboard-table th {
+  background: #e0e7ff;
+  color: #2563eb;
+  font-weight: 700;
+}
+.leaderboard-table tr {
+  border-bottom: 1px solid #e5e7eb;
+  background: #f8fafc;
+}
+.leaderboard-table tr:nth-child(even):not(.user-row) {
+  background: #e0e7ff;
+}
+.leaderboard-table tr:nth-child(odd):not(.user-row) {
+  background: #f8fafc;
+}
+.user-row {
+  background: #dbeafe !important;
+  font-weight: 700;
+  color: #2563eb;
+}
+.leaderboard-table tr:not(.user-row):hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+.leaderboard-table th, .leaderboard-table td {
+  color: #1e293b;
+}
+@media (max-width: 700px) {
+  .leaderboard-card {
+    min-width: 90vw;
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+  }
+  .leaderboard-table th, .leaderboard-table td {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+.leaderboard-top-btn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  background: linear-gradient(90deg, #2563eb 60%, #ec4899 100%);
+  color: #fff;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.8rem 2.2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 50;
+  box-shadow: 0 2px 8px rgba(30,41,59,0.08);
+  transition: background 0.2s, transform 0.1s;
+}
+.leaderboard-top-btn:hover {
+  background: linear-gradient(90deg, #1e40af 60%, #be185d 100%);
+  transform: scale(1.04);
+}
+@media (max-width: 700px) {
+  .leaderboard-top-btn {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}
