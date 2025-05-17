@@ -138,7 +138,7 @@ export const questionBank: Question[] = [
     id: 16,
     category: "Math & Logic",
     question:
-      "A ₹1,200 product is discounted by 10%, then a 10% sales tax is applied on the discounted price. What’s the final cost? (use on-screen calculator)",
+      "A ₹1,200 product is discounted by 15%, then a 10% sales tax is applied on the discounted price. What’s the final cost? (use on-screen calculator)",
     options: ["₹1,122.00", "₹1,081.80", "₹1,038.00", "₹1,158.00"],
     correctIndex: 0
   },

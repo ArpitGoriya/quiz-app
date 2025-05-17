@@ -1,0 +1,169 @@
+/* Leaderboard.css */
+
+.leaderboard-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: none;
+}
+
+.leaderboard-card {
+  background: rgba(255,255,255,0.82);
+  box-shadow: 0 8px 40px rgba(80, 80, 180, 0.13);
+  border-radius: 2rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(180,180,255,0.18);
+  padding: 2.5rem 2.5rem 2.2rem 2.5rem;
+  max-width: 520px;
+  width: 98vw;
+  margin: 10rem auto 0 auto;
+  position: relative;
+}
+
+.leaderboard-user-summary {
+  background: linear-gradient(90deg, #e0e7ff 60%, #f0f4ff 100%);
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 8px #2563eb11;
+  padding: 1.1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #2563eb;
+  justify-content: center;
+}
+.leaderboard-trophy {
+  font-size: 2rem;
+  margin-right: 0.5rem;
+}
+.leaderboard-username {
+  font-weight: 900;
+  color: #312e81;
+  font-size: 1.18em;
+}
+.leaderboard-rank {
+  color: #64748b;
+  font-weight: 600;
+}
+.leaderboard-rank b {
+  color: #2563eb;
+}
+.leaderboard-score {
+  color: #f59e42 !important;
+  font-weight: 900;
+  font-size: 1.13em;
+}
+
+.leaderboard-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
+  color: #2563eb;
+}
+
+.leaderboard-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: rgba(248,250,252,0.98);
+}
+.leaderboard-table th, .leaderboard-table td {
+  padding: 0.7rem 1.2rem;
+  text-align: center;
+  font-size: 1.1rem;
+}
+.leaderboard-table th {
+  background: #e0e7ff;
+  color: #2563eb;
+  font-weight: 700;
+}
+.leaderboard-table tr {
+  border-bottom: 1px solid #e5e7eb;
+  background: #f8fafc;
+}
+.leaderboard-table tr:nth-child(even):not(.user-row) {
+  background: #e0e7ff;
+}
+.leaderboard-table tr:nth-child(odd):not(.user-row) {
+  background: #f8fafc;
+}
+.user-row {
+  background: linear-gradient(90deg, #6366f1 0%, #7c3aed 100%) !important;
+  font-weight: 800;
+  color: #fff !important;
+  font-size: 1.25rem;
+  transform: scale(1.06);
+  box-shadow: 0 4px 24px #7c3aed44, 0 0px 16px #6366f144;
+  text-shadow: 0 2px 8px #312e8144;
+  transition: font-size 0.3s, height 0.3s, transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s, width 0.3s;
+}
+.leaderboard-table tr:not(.user-row):hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+.leaderboard-table th, .leaderboard-table td {
+  color: #1e293b;
+}
+.leaderboard-rank-cell {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.leaderboard-score-cell {
+  font-weight: 700;
+}
+.user-score {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+}
+
+.leaderboard-message {
+  margin-top: 1.2rem;
+  text-align: center;
+  font-size: 1.13rem;
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.leaderboard-back-btn {
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 1.1rem;
+  padding: 0.8rem 2.2rem;
+}
+
+@media (max-width: 700px) {
+  .leaderboard-card {
+    min-width: 90vw;
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+  }
+  .leaderboard-table th, .leaderboard-table td {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* While animating, make the user row wider and more vibrant */
+.user-row-animating {
+  background: linear-gradient(90deg, #f472b6 0%, #facc15 100%) !important;
+  color: #312e81 !important;
+  font-size: 1.35rem;
+  transform: scaleX(1.22);
+  box-shadow: 0 8px 32px #f472b655, 0 2px 16px #facc1533;
+  border-left: 6px solid #facc15;
+  border-right: 6px solid #f472b6;
+  z-index: 2;
+}
+
+.user-row .leaderboard-name-cell {
+  color: #fff !important;
+} 
