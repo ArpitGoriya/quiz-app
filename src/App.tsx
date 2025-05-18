@@ -21,16 +21,12 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(QUIZ_TIME)
   const [timeUp, setTimeUp] = useState(false)
   const [showLeaderboard, setShowLeaderboard] = useState(false)
-  const [userName, setUserName] = useState('You')
   const [showCalc, setShowCalc] = useState(false)
   const [feedbackIcon, setFeedbackIcon] = useState<string | null>(null)
   const [cardFadeOut, setCardFadeOut] = useState(false)
   const feedbackTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [answerStates, setAnswerStates] = useState<(null | 'right' | 'wrong')[]>([])
   const [userAnswers, setUserAnswers] = useState<string[]>([]);
-  const [resultsStage, setResultsStage] = useState<'stats' | 'transition' | 'review'>('stats');
-  const [revealedStats, setRevealedStats] = useState(0); // 0: none, 1: score, 2: bonus, 3: final, 4: message
-  const [revealedMistakes, setRevealedMistakes] = useState(0);
 
   // Extract unique categories and make 'Math & Logic' second
   let categories = Array.from(new Set(questionBank.map(q => q.category)));
@@ -129,13 +125,6 @@ function App() {
     })
   }
 
-  const handleNext = () => {
-    setCurrentQuestionIdx(idx => idx + 1)
-    setSelectedOption(null)
-    setShowAnswer(false)
-    setIsCorrect(null)
-  }
-
   const handleBackToCategories = () => {
     setSelectedCategory(null)
     setCurrentQuestionIdx(0)
@@ -165,42 +154,7 @@ function App() {
     setShowLeaderboard(true)
   }
 
-  // When quiz ends, start the results animation flow
-  useEffect(() => {
-    if (showSummary && selectedCategory) {
-      setResultsStage('stats');
-      setRevealedStats(0);
-      setRevealedMistakes(0);
-      // Reveal stats one by one, slower
-      let timers: ReturnType<typeof setTimeout>[] = [];
-      for (let i = 1; i <= 4; i++) {
-        timers.push(setTimeout(() => setRevealedStats(i), i * 1000));
-      }
-      // After stats, pause, then transition to review
-      timers.push(setTimeout(() => setResultsStage('transition'), 5000)); // 4s for stats, 1s pause
-      // Only after slide, show review
-      timers.push(setTimeout(() => setResultsStage('review'), 6500)); // 1.5s for slide
-      return () => timers.forEach(clearTimeout);
-    }
-  }, [showSummary, selectedCategory]);
-
-  // Reveal mistakes one by one in review stage, slower
-  useEffect(() => {
-    if (resultsStage === 'review' && showSummary && selectedCategory) {
-      setRevealedMistakes(0);
-      const wrongCount = questions.filter((_, idx) => answerStates[idx] === 'wrong').length;
-      if (wrongCount === 0) return;
-      let i = 0;
-      const interval = setInterval(() => {
-        i++;
-        setRevealedMistakes(i);
-        if (i >= wrongCount) clearInterval(interval);
-      }, 500);
-      return () => clearInterval(interval);
-    }
-  }, [resultsStage, showSummary, selectedCategory]);
-
-  // Handler for retrying the same quiz
+  // Re-add the handler for retrying the same quiz
   const handleRetryThisQuiz = () => {
     setCurrentQuestionIdx(0);
     setSelectedOption(null);
@@ -225,7 +179,7 @@ function App() {
         <div className="hero-bg-shape shape3"></div>
         <div className="hero-bg-shape shape4"></div>
         <div className="hero-bg-shape shape5"></div>
-      <Leaderboard userName={userName} userScore={finalScore} show={showLeaderboard} onBack={handleBackToCategories} />
+        <Leaderboard userName="You" userScore={finalScore} show={showLeaderboard} onBack={handleBackToCategories} />
       </div>
     )
   }
@@ -493,26 +447,6 @@ function App() {
       </div>
     </div>
   )
-}
-
-type AnimatedNumberProps = { value: number, duration?: number };
-function AnimatedNumber({ value, duration = 600 }: AnimatedNumberProps) {
-  const [display, setDisplay] = useState(0);
-  useEffect(() => {
-    let start = 0;
-    let startTime = Date.now();
-    let raf: number | null = null;
-    function animate() {
-      const now = Date.now();
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      setDisplay(Math.round(start + (value - start) * progress));
-      if (progress < 1) raf = requestAnimationFrame(animate);
-    }
-    animate();
-    return () => { if (raf !== null) cancelAnimationFrame(raf); };
-  }, [value, duration]);
-  return <span>{display}</span>;
 }
 
 export default App

@@ -40,10 +40,6 @@ const statItem = {
   visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'tween', duration: 1.1, ease: [0.4, 0, 0.2, 1] } },
   exit: { opacity: 0, y: 32, scale: 0.95, transition: { duration: 0.5 } },
 };
-const reviewList = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.5 } },
-};
 const reviewItem = {
   hidden: { opacity: 0, x: 40, scale: 0.95 },
   visible: { opacity: 1, x: 0, scale: 1, transition: { type: 'spring', stiffness: 120, damping: 18 } },
@@ -84,7 +80,7 @@ const Summary: React.FC<SummaryProps> = ({
       userAnswer: answerStates[idx],
       selected: userAnswers[idx],
     }))
-    .filter((q, idx) => answerStates[idx] === 'wrong');
+    .filter((_, idx) => answerStates[idx] === 'wrong');
   const noMistakes = wrongQuestions.length === 0;
 
   // Get window size for confetti
@@ -154,128 +150,128 @@ const Summary: React.FC<SummaryProps> = ({
 
   return (
     <>
-      <div className="summary-root">
-        {/* Animated background shapes */}
-        <div className="hero-bg-shape shape1"></div>
-        <div className="hero-bg-shape shape2"></div>
-        <div className="hero-bg-shape shape3"></div>
-        <div className="hero-bg-shape shape4"></div>
-        <div className="hero-bg-shape shape5"></div>
-        {/* Confetti celebration always shown */}
-        <Confetti
-          width={dimensions.width}
-          height={dimensions.height}
-          numberOfPieces={350}
-          recycle={false}
-          gravity={0.25}
-          initialVelocityY={18}
-          style={{ position: 'fixed', top: 0, left: 0, zIndex: 1000, pointerEvents: 'none' }}
-        />
+    <div className="summary-root">
+      {/* Animated background shapes */}
+      <div className="hero-bg-shape shape1"></div>
+      <div className="hero-bg-shape shape2"></div>
+      <div className="hero-bg-shape shape3"></div>
+      <div className="hero-bg-shape shape4"></div>
+      <div className="hero-bg-shape shape5"></div>
+      {/* Confetti celebration always shown */}
+      <Confetti
+        width={dimensions.width}
+        height={dimensions.height}
+        numberOfPieces={350}
+        recycle={false}
+        gravity={0.25}
+        initialVelocityY={18}
+        style={{ position: 'fixed', top: 0, left: 0, zIndex: 1000, pointerEvents: 'none' }}
+      />
         {/* Main summary card and rest of UI */}
+      <motion.div
+        className="summary-main-card"
+        ref={mainCardRef}
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+      >
+        {/* Animated emoji based on performance */}
         <motion.div
-          className="summary-main-card"
-          ref={mainCardRef}
-          variants={cardVariants}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-        >
-          {/* Animated emoji based on performance */}
-          <motion.div
-            className="summary-emoji-celebration"
+          className="summary-emoji-celebration"
             initial={{ opacity: 0, y: -40 }}
             animate={{ opacity: 1, y: 0, transition: { duration: 0.7, type: 'spring', stiffness: 80 } }}
-            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1.2rem', zIndex: 10 }}
-          >
-            <span style={{ fontSize: '3.5rem', filter: 'drop-shadow(0 4px 24px #facc15aa)' }} role="img" aria-label="Celebration Emoji">{celebrationEmoji}</span>
-          </motion.div>
-          <motion.div className="summary-header" initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.15, duration: 0.6 } }}>
-            <h2 className="summary-title-new">Quiz Results</h2>
-          </motion.div>
-          <motion.div className="summary-stats-new" variants={statsContainer} initial="hidden" animate="visible" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.1rem' }}>
-            {/* Always render all stat slots for smooth layout */}
-            <div style={{ minHeight: 56, width: '100%', maxWidth: 340, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <AnimatePresence mode="wait">
-                {revealedStats >= 1 && (
-                  <motion.div className="summary-stat-item" variants={statItem} initial="hidden" animate="visible" exit="exit" key="stat1">
-                    <span className="summary-stat-label">Score</span>
-                    <span className="summary-stat-value">{score} / {questions.length}</span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            <div style={{ minHeight: 56, width: '100%', maxWidth: 340, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <AnimatePresence mode="wait">
-                {revealedStats >= 2 && (
-                  <motion.div className="summary-stat-item" variants={statItem} initial="hidden" animate="visible" exit="exit" key="stat2">
+          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1.2rem', zIndex: 10 }}
+        >
+          <span style={{ fontSize: '3.5rem', filter: 'drop-shadow(0 4px 24px #facc15aa)' }} role="img" aria-label="Celebration Emoji">{celebrationEmoji}</span>
+        </motion.div>
+        <motion.div className="summary-header" initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.15, duration: 0.6 } }}>
+          <h2 className="summary-title-new">Quiz Results</h2>
+        </motion.div>
+        <motion.div className="summary-stats-new" variants={statsContainer} initial="hidden" animate="visible" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.1rem' }}>
+          {/* Always render all stat slots for smooth layout */}
+          <div style={{ minHeight: 56, width: '100%', maxWidth: 340, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <AnimatePresence mode="wait">
+              {revealedStats >= 1 && (
+                <motion.div className="summary-stat-item" variants={statItem} initial="hidden" animate="visible" exit="exit" key="stat1">
+                  <span className="summary-stat-label">Score</span>
+                  <span className="summary-stat-value">{score} / {questions.length}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          <div style={{ minHeight: 56, width: '100%', maxWidth: 340, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <AnimatePresence mode="wait">
+              {revealedStats >= 2 && (
+                <motion.div className="summary-stat-item" variants={statItem} initial="hidden" animate="visible" exit="exit" key="stat2">
                     <span className="summary-stat-label">Time Bonus
                       <span className="info-tooltip">&#x3f;
                         <span className="tooltip-text">You get 1 bonus point for every second left when you finish the quiz!</span>
                       </span>
                     </span>
-                    <span className="summary-stat-value">+{timeBonus}</span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            <div style={{ minHeight: 56, width: '100%', maxWidth: 340, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <AnimatePresence mode="wait">
-                {revealedStats >= 3 && (
-                  <motion.div className="summary-stat-item" variants={statItem} initial="hidden" animate="visible" exit="exit" key="stat3">
-                    <span className="summary-stat-label">Final Score</span>
-                    <span className="summary-stat-value highlight">{finalScore}</span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            <div style={{ minHeight: 56, width: '100%', maxWidth: 340, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <AnimatePresence mode="wait">
-                {revealedStats >= 4 && (
-                  <motion.div className="summary-message-new" variants={statItem} initial="hidden" animate="visible" exit="exit" key="stat4">
-                    {finalScore === questions.length && '🎉 Perfect!'}
-                    {finalScore >= Math.ceil(questions.length * 0.7) && finalScore < questions.length && 'Great job!'}
-                    {finalScore < Math.ceil(questions.length * 0.7) && 'Keep practicing!'}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
-          {/* Animate buttons in after stats reveal, always reserve space */}
-          <div style={{ minHeight: 64, width: '100%', maxWidth: 340, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <AnimatePresence>
-              {revealedStats >= 4 && (
-                <motion.div
-                  className="summary-actions"
-                  variants={buttonFade}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  style={{ width: '100%', display: 'flex', gap: '1.2rem', justifyContent: 'center' }}
-                >
-                  <motion.button
-                    className="summary-btn"
-                    variants={buttonVariants}
-                    initial="rest"
-                    whileHover="hover"
-                    whileTap="tap"
-                    onClick={handleShowLeaderboard}
-                  >
-                    View Leaderboard
-                  </motion.button>
-                  <motion.button
-                    className="summary-btn secondary"
-                    variants={buttonVariants}
-                    initial="rest"
-                    whileHover="hover"
-                    whileTap="tap"
-                    onClick={() => setShowTryOptions(v => !v)}
-                  >
-                    Try Again
-                  </motion.button>
+                  <span className="summary-stat-value">+{timeBonus}</span>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
+          <div style={{ minHeight: 56, width: '100%', maxWidth: 340, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <AnimatePresence mode="wait">
+              {revealedStats >= 3 && (
+                <motion.div className="summary-stat-item" variants={statItem} initial="hidden" animate="visible" exit="exit" key="stat3">
+                  <span className="summary-stat-label">Final Score</span>
+                  <span className="summary-stat-value highlight">{finalScore}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          <div style={{ minHeight: 56, width: '100%', maxWidth: 340, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <AnimatePresence mode="wait">
+              {revealedStats >= 4 && (
+                <motion.div className="summary-message-new" variants={statItem} initial="hidden" animate="visible" exit="exit" key="stat4">
+                  {finalScore === questions.length && '🎉 Perfect!'}
+                  {finalScore >= Math.ceil(questions.length * 0.7) && finalScore < questions.length && 'Great job!'}
+                  {finalScore < Math.ceil(questions.length * 0.7) && 'Keep practicing!'}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+        {/* Animate buttons in after stats reveal, always reserve space */}
+        <div style={{ minHeight: 64, width: '100%', maxWidth: 340, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <AnimatePresence>
+            {revealedStats >= 4 && (
+              <motion.div
+                className="summary-actions"
+                variants={buttonFade}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                style={{ width: '100%', display: 'flex', gap: '1.2rem', justifyContent: 'center' }}
+              >
+                <motion.button
+                  className="summary-btn"
+                  variants={buttonVariants}
+                  initial="rest"
+                  whileHover="hover"
+                  whileTap="tap"
+                  onClick={handleShowLeaderboard}
+                >
+                  View Leaderboard
+                </motion.button>
+                <motion.button
+                  className="summary-btn secondary"
+                  variants={buttonVariants}
+                  initial="rest"
+                  whileHover="hover"
+                  whileTap="tap"
+                  onClick={() => setShowTryOptions(v => !v)}
+                >
+                  Try Again
+                </motion.button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
           {/* Animated down arrow to prompt scroll for review (now below buttons) */}
           {showArrow && (
             <motion.div
@@ -288,7 +284,7 @@ const Summary: React.FC<SummaryProps> = ({
             </motion.div>
           )}
           {/* Review section only after stats and buttons are revealed */}
-          <AnimatePresence>
+        <AnimatePresence>
           {revealedStats >= 4 && !noMistakes && (
             <motion.div
               className="summary-review-section"
@@ -326,78 +322,78 @@ const Summary: React.FC<SummaryProps> = ({
       </div>
       {/* Try Again Modal (Portal for overlay+modal) */}
       {revealedStats >= 4 && showTryOptions && ReactDOM.createPortal(
-        <>
-          {/* Overlay */}
-          <motion.div
-            className="summary-modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5, transition: { duration: 0.3 } }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            <>
+              {/* Overlay */}
+              <motion.div
+                className="summary-modal-overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.5, transition: { duration: 0.3 } }}
+                exit={{ opacity: 0, transition: { duration: 0.2 } }}
             style={{ position: 'fixed', inset: 0, background: '#000', zIndex: 3000 }}
-            onClick={() => setShowTryOptions(false)}
-            aria-label="Close Try Again Modal"
-          />
-          {/* Modal */}
-          <motion.div
-            className="summary-modal"
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1, transition: { type: 'spring', stiffness: 180, damping: 18 } }}
-            exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.2 } }}
-            style={{
-              position: 'fixed',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
+                onClick={() => setShowTryOptions(false)}
+                aria-label="Close Try Again Modal"
+              />
+              {/* Modal */}
+              <motion.div
+                className="summary-modal"
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1, transition: { type: 'spring', stiffness: 180, damping: 18 } }}
+                exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.2 } }}
+                style={{
+                  position: 'fixed',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
               zIndex: 3100,
-              background: 'rgba(255,255,255,0.98)',
-              borderRadius: '1.5rem',
-              boxShadow: '0 8px 40px rgba(80, 80, 180, 0.18)',
-              padding: '2.2rem 2.5rem 2.2rem 2.5rem',
-              minWidth: 320,
-              maxWidth: '90vw',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '1.5rem',
-            }}
-            tabIndex={-1}
-            role="dialog"
-            aria-modal="true"
-          >
-            {/* Close button */}
-            <button
-              className="summary-modal-close"
-              onClick={() => setShowTryOptions(false)}
-              aria-label="Close"
-            >
-              ×
-            </button>
-            <div className="summary-modal-title">
-              Would you like to retry this quiz or try a different one?
-            </div>
-            <div className="summary-modal-actions">
-              <motion.button
-                className="summary-btn"
-                variants={buttonVariants}
-                initial="rest"
-                whileHover="hover"
-                whileTap="tap"
-                onClick={() => { setShowTryOptions(false); onRetryThisQuiz && onRetryThisQuiz(); }}
+                  background: 'rgba(255,255,255,0.98)',
+                  borderRadius: '1.5rem',
+                  boxShadow: '0 8px 40px rgba(80, 80, 180, 0.18)',
+                  padding: '2.2rem 2.5rem 2.2rem 2.5rem',
+                  minWidth: 320,
+                  maxWidth: '90vw',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '1.5rem',
+                }}
+                tabIndex={-1}
+                role="dialog"
+                aria-modal="true"
               >
-                Retry This Quiz
-              </motion.button>
-              <motion.button
-                className="summary-btn secondary"
-                variants={buttonVariants}
-                initial="rest"
-                whileHover="hover"
-                whileTap="tap"
-                onClick={() => { setShowTryOptions(false); (onTryAnotherQuiz || handleBackToCategories)(); }}
-              >
-                Try Another Quiz
-              </motion.button>
-            </div>
-          </motion.div>
+                {/* Close button */}
+                <button
+                  className="summary-modal-close"
+                  onClick={() => setShowTryOptions(false)}
+                  aria-label="Close"
+                >
+                  ×
+                </button>
+                <div className="summary-modal-title">
+                  Would you like to retry this quiz or try a different one?
+                </div>
+                <div className="summary-modal-actions">
+                  <motion.button
+                    className="summary-btn"
+                    variants={buttonVariants}
+                    initial="rest"
+                    whileHover="hover"
+                    whileTap="tap"
+                    onClick={() => { setShowTryOptions(false); onRetryThisQuiz && onRetryThisQuiz(); }}
+                  >
+                    Retry This Quiz
+                  </motion.button>
+                  <motion.button
+                    className="summary-btn secondary"
+                    variants={buttonVariants}
+                    initial="rest"
+                    whileHover="hover"
+                    whileTap="tap"
+                    onClick={() => { setShowTryOptions(false); (onTryAnotherQuiz || handleBackToCategories)(); }}
+                  >
+                    Try Another Quiz
+                  </motion.button>
+                </div>
+              </motion.div>
         </>,
         document.body
       )}

@@ -29,20 +29,20 @@ function safeCalculate(expr: string): string {
     // Remove spaces
     expr = expr.replace(/\s+/g, '');
     // Handle percent: replace e.g. 200+10% with 200+(200*0.1)
-    expr = expr.replace(/(\d+(?:\.\d+)?)([+\-])((?:\d+(?:\.\d+)?)%)/g, (m, a, op, b) => {
+    expr = expr.replace(/(\d+(?:\.\d+)?)([+\-])((?:\d+(?:\.\d+)?)%)/g, (a, op, b) => {
       const base = parseFloat(a);
       const percent = parseFloat(b) / 100;
       if (op === '+') return `${base}+(${base}*${percent})`;
       if (op === '-') return `${base}-(${base}*${percent})`;
-      return m;
+      return '';
     });
     // Handle multiply/divide with percent: 200*10% => 200*0.1
-    expr = expr.replace(/(\d+(?:\.\d+)?)([*/])((?:\d+(?:\.\d+)?)%)/g, (m, a, op, b) => {
+    expr = expr.replace(/(\d+(?:\.\d+)?)([*/])((?:\d+(?:\.\d+)?)%)/g, (a, op, b) => {
       const percent = parseFloat(b) / 100;
       return `${a}${op}${percent}`;
     });
     // Standalone percent: 50% => 0.5
-    expr = expr.replace(/(\d+(?:\.\d+)?)%/g, (m, a) => (parseFloat(a) / 100).toString());
+    expr = expr.replace(/(\d+(?:\.\d+)?)%/g, (_, a) => (parseFloat(a) / 100).toString());
     // Only allow numbers and operators
     if (!/^[-+*/().\d]+$/.test(expr)) return 'Error';
     // eslint-disable-next-line no-new-func
@@ -60,7 +60,6 @@ function safeCalculate(expr: string): string {
 const Calculator: React.FC = () => {
   const [input, setInput] = useState('');
   const [result, setResult] = useState('');
-  const [copied, setCopied] = useState(false);
   const [lastWasEqual, setLastWasEqual] = useState(false);
   const inputRef = useRef<HTMLDivElement>(null);
 
@@ -136,14 +135,6 @@ const Calculator: React.FC = () => {
         setInput(prev => prev + val);
         setResult('');
       }
-    }
-  };
-
-  const handleCopy = () => {
-    if (result) {
-      navigator.clipboard.writeText(result);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1200);
     }
   };
 

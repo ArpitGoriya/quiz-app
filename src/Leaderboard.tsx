@@ -119,7 +119,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ userName, userScore, show, on
               </tr>
             </thead>
             <tbody>
-              {leaderboard.map((entry, i) => (
+              {leaderboard.map(entry => (
                 entry.isUser ? (
                   <motion.tr
                     key={entry.name + entry.score}
